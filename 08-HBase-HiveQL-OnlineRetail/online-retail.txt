@@ -1,0 +1,85 @@
+i. Create and Load table with Online Retail data in Hive:
+Assuming you have the Online Retail data file named online_retail.csv, you can create and load the table as follows:
+
+$ hive
+hive> CREATE TABLE OnlineRetail (
+      InvoiceNo STRING,
+      StockCode STRING,
+      Description STRING,
+      Quantity INT,
+      InvoiceDate STRING,
+      UnitPrice DOUBLE,
+      CustomerID INT,
+      Country STRING)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+
+hive> LOAD DATA LOCAL INPATH '/path/to/online_retail.csv' INTO TABLE OnlineRetail;
+
+
+j. Create an index on the Online Retail table in Hive:
+
+$ hive
+hive> CREATE INDEX idx_online_retail ON TABLE OnlineRetail (InvoiceNo) AS 'COMPACT' WITH DEFERRED REBUILD;
+hive> ALTER INDEX idx_online_retail ON OnlineRetail REBUILD;
+
+k. Find the total and average sales in Hive:
+
+$ hive
+hive> SELECT SUM(Quantity * UnitPrice) AS total_sales, AVG(Quantity * UnitPrice) AS avg_sales
+      FROM OnlineRetail;
+
+l. Find Order details with maximum cost:
+
+$ hive
+hive> SELECT * FROM OnlineRetail
+      WHERE (Quantity * UnitPrice) = (SELECT MAX(Quantity * UnitPrice) FROM OnlineRetail);
+
+m. Find Customer details with maximum order total:
+
+$ hive
+hive> SELECT CustomerID, SUM(Quantity * UnitPrice) AS order_total
+      FROM OnlineRetail
+      GROUP BY CustomerID
+      ORDER BY order_total DESC
+      LIMIT 1;
+
+n. Find the Country with maximum and minimum sale:
+
+$ hive
+hive> SELECT Country, SUM(Quantity * UnitPrice) AS total_sales
+      FROM OnlineRetail
+      GROUP BY Country
+      ORDER BY total_sales DESC
+      LIMIT 1;
+
+hive> SELECT Country, SUM(Quantity * UnitPrice) AS total_sales
+      FROM OnlineRetail
+      GROUP BY Country
+      ORDER BY total_sales ASC
+      LIMIT 1;
+
+
+o. Creating an external Hive table to connect to HBase for OnlineRetail:
+
+$ hive
+hive> CREATE EXTERNAL TABLE OnlineRetailHBase (
+      InvoiceNo STRING,
+      StockCode STRING,
+      Description STRING,
+      Quantity INT,
+      InvoiceDate STRING,
+      UnitPrice DOUBLE,
+      CustomerID INT,
+      Country STRING)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES (
+      "hbase.columns.mapping" = ":key,OnlineRetail:stock_code,OnlineRetail:description,OnlineRetail:quantity,OnlineRetail:invoice_date,OnlineRetail:unit_price,OnlineRetail:customer_id,OnlineRetail:country")
+TBLPROPERTIES ("hbase.table.name" = "OnlineRetail");
+
+
+p. Display records of OnlineRetail Table in HBase:
+
+$ hbase shell
+hbase> scan 'OnlineRetail'

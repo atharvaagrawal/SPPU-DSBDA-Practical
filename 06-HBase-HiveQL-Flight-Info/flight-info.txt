@@ -1,0 +1,58 @@
+Here are the command line instructions to perform the tasks mentioned using HBase and HiveQL for the flight information system:
+
+a. Create Flight Info HBase Table:
+
+$ hbase shell
+hbase> create 'FlightInfo', 'Flight', 'Schedule', 'Delay'
+
+b. Demonstrate Creating, Dropping, and altering Database tables in Hbase:
+To create a table in HBase:
+
+$ hbase shell
+hbase> create 'TableName', 'ColumnFamily1', 'ColumnFamily2'
+
+To drop a table in HBase:
+
+$ hbase shell
+hbase> disable 'TableName'
+hbase> drop 'TableName'
+
+To alter a table in HBase:
+
+$ hbase shell
+hbase> alter 'TableName', 'NewColumnFamily'
+
+c. Creating an external Hive table to connect to HBase for Flight Information Table:
+
+$ hive
+hive> CREATE EXTERNAL TABLE FlightInfoHive (
+      flight_id STRING,
+      airline STRING,
+      source STRING,
+      destination STRING,
+      departure_time STRING,
+      arrival_time STRING,
+      delay_minutes INT)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES (
+      "hbase.columns.mapping" =
+         ":key,Flight:airline,Flight:source,Flight:destination,Schedule:departure_time,Schedule:arrival_time,Delay:delay_minutes")
+TBLPROPERTIES ("hbase.table.name" = "FlightInfo");
+
+
+d. Find the total departure delay in Hive:
+
+$ hive
+hive> SELECT SUM(delay_minutes) AS total_departure_delay FROM FlightInfoHive;
+
+
+e. Find the average departure delay in Hive:
+
+$ hive
+hive> SELECT AVG(delay_minutes) AS avg_departure_delay FROM FlightInfoHive;
+
+f. Create an index on the Flight information Table:
+
+$ hbase shell
+hbase> disable 'FlightInfo'
+hbase> alter 'FlightInfo', METHOD => 'table_att', 'coprocessor'=>'|org.apache.hadoop.hbase.coprocessor.'
