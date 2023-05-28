@@ -1,0 +1,62 @@
+HBase and Hive are both popular big data technologies used in the Apache Hadoop ecosystem. 
+Here are some basic CRUD (Create, Read, Update, Delete) operation commands for HBase and Hive:
+
+HBase CRUD Operations:
+
+Create:
+Create a table:
+create '<table_name>', '<column_family_name>'
+
+Read:
+Get a row by key:
+get '<table_name>', '<row_key>'
+
+Scan the entire table:
+scan '<table_name>'
+
+Update:
+Put a value into a row:
+put '<table_name>', '<row_key>', '<column_family_name>:<column_name>', '<value>'
+
+Increment a value in a row:
+incr '<table_name>', '<row_key>', '<column_family_name>:<column_name>', <increment_value>
+
+Delete:
+Delete a row:
+deleteall '<table_name>', '<row_key>'
+
+Delete a specific cell in a row:
+delete '<table_name>', '<row_key>', '<column_family_name>:<column_name>', '<timestamp>'
+
+-----------------------------------------------------------------------------------------------
+
+Hive CRUD Operations:
+Create:
+
+Create a table:
+
+CREATE TABLE <table_name> (
+  <column1> <data_type>,
+  <column2> <data_type>,
+  ...
+)
+Read:
+
+Select all rows from a table:
+
+SELECT * FROM <table_name>
+Select specific columns from a table:
+
+SELECT <column1>, <column2> FROM <table_name>
+
+Update:
+Hive does not provide direct support for updating records. Instead, you would typically create a new 
+table or overwrite the existing table with updated data.
+
+
+Delete:
+Hive does not provide direct support for deleting records. Instead, you would typically drop the table and 
+recreate it without the records you want to delete.
+It's important to note that HBase and Hive have different use cases and data models. HBase is a NoSQL 
+database for real-time, random read/write access, while Hive is a data warehousing and SQL-like querying 
+tool built on top of Hadoop, primarily used for batch processing.

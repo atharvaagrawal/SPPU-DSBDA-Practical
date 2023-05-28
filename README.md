@@ -27,3 +27,6 @@
 - Install: https://help.tableau.com/current/server-linux/en-us/jumpstart.htm
 - Video1: https://www.youtube.com/watch?v=TPMlZxRRaBQ
 - Video2: https://www.youtube.com/watch?v=cAHJw2o2n4c
+
+## Hive and HBase
+- Video: https://www.youtube.com/watch?v=ln8uCcz3Kgc

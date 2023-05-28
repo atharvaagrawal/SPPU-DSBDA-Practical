@@ -56,3 +56,36 @@ f. Create an index on the Flight information Table:
 $ hbase shell
 hbase> disable 'FlightInfo'
 hbase> alter 'FlightInfo', METHOD => 'table_att', 'coprocessor'=>'|org.apache.hadoop.hbase.coprocessor.'
+
+
+
+
+INSERT INTO TABLE FlightInfoHive
+VALUES
+  ('FL001', 'Airline1', 'Source1', 'Destination1', '09:00', '11:30', 10),
+  ('FL002', 'Airline2', 'Source2', 'Destination2', '10:30', '13:00', 5),
+  ('FL003', 'Airline3', 'Source3', 'Destination3', '12:15', '14:45', 0),
+  ('FL004', 'Airline4', 'Source4', 'Destination4', '14:00', '16:30', 15),
+  ('FL005', 'Airline5', 'Source5', 'Destination5', '16:45', '19:15', 20),
+  ('FL006', 'Airline6', 'Source6', 'Destination6', '18:30', '21:00', 30),
+  ('FL007', 'Airline7', 'Source7', 'Destination7', '20:15', '22:45', 5),
+  ('FL008', 'Airline8', 'Source8', 'Destination8', '22:00', '00:30', 0),
+  ('FL009', 'Airline9', 'Source9', 'Destination9', '23:45', '02:15', 10),
+  ('FL010', 'Airline10', 'Source10', 'Destination10', '01:30', '04:00', 45);
+
+
+
+To put data into HBase, you can use the put command in the HBase shell. Here's an example of how to put data into the 'FlightInfo' table:
+
+shell
+Copy code
+$ hbase shell
+hbase> put 'FlightInfo', 'row1', 'Flight:airline', 'Airline1'
+hbase> put 'FlightInfo', 'row1', 'Flight:source', 'Source1'
+hbase> put 'FlightInfo', 'row1', 'Flight:destination', 'Destination1'
+hbase> put 'FlightInfo', 'row1', 'Schedule:departure_time', '10:00 AM'
+hbase> put 'FlightInfo', 'row1', 'Schedule:arrival_time', '12:00 PM'
+hbase> put 'FlightInfo', 'row1', 'Delay:delay_minutes', '30'
+You can repeat the put command to add more rows of data to the table. Modify the row key ('row1') and column values as per your requirements.
+
+Note: Make sure HBase is running before executing the above commands, and adjust the column families and qualifiers based on your table schema.
