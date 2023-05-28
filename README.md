@@ -9,7 +9,7 @@
    - 1. hadoop-common.jar from usr/lib/hadoop
    - 2. hadoop-common-2.6.0-cdh5.4.2.jar from usr/lib/hadoop
    - 3. hadoop-core-2.6.0-mr1-cdh5.4.2.jar form usr/lib/hadoop-0.20-mapreduce
-   - 4. commons-cli-1.2.jar from usr/lib/hadoop/common/lib
+   - 4. commons-cli-1.2.jar from usr/lib/hadoop/lib
 5. Create new launch configuration
 6. For that click on Run as and then Run configuration
 7. Click on java application and create new configuration
